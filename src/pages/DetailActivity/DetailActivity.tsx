@@ -1,12 +1,5 @@
 import styled from "@emotion/styled";
-import React, {
-  memo,
-  useCallback,
-  useContext,
-  useMemo,
-  useState,
-  useEffect,
-} from "react";
+import React, { memo, useCallback, useContext, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import sorter, { TypeSorted } from "../../commons/sorter";
 import ConfirmAlert from "../../components/Alert/ConfirmAlert";
@@ -118,32 +111,7 @@ const DetailActivity = () => {
     isEditButtonClicked,
     isDeleteButtonClicked,
   ]);
-  const [modalTimeoutId, setModalTimeoutId] = useState<number>();
-  const setModalTimeout = useCallback(() => {
-    if (isModalChangeChildrenElement) {
-      const timeoutId = window.setTimeout(() => {
-        setModalOff();
-      }, 2000);
-      setModalTimeoutId(timeoutId);
-    }
-  }, [isModalChangeChildrenElement, setModalOff]);
 
-  useEffect(() => {
-    if (isModalVisible) {
-      setModalTimeout();
-    }
-  }, [isModalVisible, setModalTimeout]);
-  const clearModalTimeout = useCallback(() => {
-    if (modalTimeoutId) {
-      window.clearTimeout(modalTimeoutId);
-      setModalTimeoutId(undefined);
-    }
-  }, [modalTimeoutId]);
-
-  const closeModal = useCallback(() => {
-    clearModalTimeout();
-    setModalOff();
-  }, [clearModalTimeout, setModalOff]);
   return (
     <>
       {isModalVisible && (
@@ -173,7 +141,7 @@ const DetailActivity = () => {
                 onConfirm={delteDetailActvityConfirmHandler}
               />
             ) : (
-              <InformAlert fromItem="item" onModalOff={closeModal} />
+              <InformAlert fromItem="item" />
             ))}
         </Modal>
       )}
