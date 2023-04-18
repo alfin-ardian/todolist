@@ -1,5 +1,12 @@
 import styled from "@emotion/styled";
-import React, { memo, useCallback, useContext, useMemo, useState } from "react";
+import React, {
+  memo,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+  useEffect,
+} from "react";
 import ConfirmAlert from "../../components/Alert/ConfirmAlert";
 import InformAlert from "../../components/Alert/InformAlert";
 import HeaderActivity from "../../components/Main/Dashboard/Header/HeaderActivity";
@@ -63,6 +70,32 @@ const Activity = () => {
     await deleteActivity(selectActivityItem.id);
     setModalChangeChildrenElementOn();
   }, [setModalChangeChildrenElementOn, selectActivityItem.id, deleteActivity]);
+  const [modalTimeoutId, setModalTimeoutId] = useState<number>();
+  const setModalTimeout = useCallback(() => {
+    if (isModalChangeChildrenElement) {
+      const timeoutId = window.setTimeout(() => {
+        setModalOff();
+      }, 2000);
+      setModalTimeoutId(timeoutId);
+    }
+  }, [isModalChangeChildrenElement, setModalOff]);
+
+  useEffect(() => {
+    if (isModalVisible) {
+      setModalTimeout();
+    }
+  }, [isModalVisible, setModalTimeout]);
+  const clearModalTimeout = useCallback(() => {
+    if (modalTimeoutId) {
+      window.clearTimeout(modalTimeoutId);
+      setModalTimeoutId(undefined);
+    }
+  }, [modalTimeoutId]);
+
+  const closeModal = useCallback(() => {
+    clearModalTimeout();
+    setModalOff();
+  }, [clearModalTimeout, setModalOff]);
   return (
     <>
       {isModalVisible && (
@@ -75,7 +108,7 @@ const Activity = () => {
               onConfirm={handlerDeleteActivity}
             />
           ) : (
-            <InformAlert fromItem="Activity" />
+            <InformAlert fromItem="Activity" onModalOff={closeModal} />
           )}
         </Modal>
       )}
