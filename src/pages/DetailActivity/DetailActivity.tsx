@@ -173,7 +173,7 @@ const DetailActivity = () => {
                 onConfirm={delteDetailActvityConfirmHandler}
               />
             ) : (
-              <InformAlert fromItem="item" />
+              <InformAlert fromItem="item" onModalOff={closeModal} />
             ))}
         </Modal>
       )}
