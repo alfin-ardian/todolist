@@ -111,7 +111,6 @@ const DetailActivity = () => {
     isEditButtonClicked,
     isDeleteButtonClicked,
   ]);
-
   return (
     <>
       {isModalVisible && (
