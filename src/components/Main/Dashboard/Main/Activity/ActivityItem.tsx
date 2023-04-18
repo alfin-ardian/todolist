@@ -56,14 +56,18 @@ const RemoveButton = styled.button({
   border: "none",
   cursor: "pointer",
 });
-
 const ActivityItem: FC<TypeActivityItem> = ({
   created_at,
   id,
   title,
   onClick,
 }) => {
-  const dateID = dateFormater(created_at);
+  const date = new Date(created_at);
+  const dateID = date.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
   const activity: TypeSelectActivityItem = useMemo(
     () => ({ id, title }),
     [id, title],
